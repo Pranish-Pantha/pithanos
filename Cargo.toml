@@ -1,0 +1,27 @@
+[package]
+name = "pithanos"
+version = "0.1.0"
+edition = "2024"
+authors = ["Pranish Pantha"]
+description = "Fast, lock-free probabilistic data structures for modern Rust."
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/Pranish-Pantha/pithanos"
+homepage = "https://github.com/Pranish-Pantha/pithanos"
+keywords = ["bloom-filter", "count-min-sketch", "probabilistic", "data-structures", "lock-free"]
+categories = ["algorithms", "data-structures", "concurrency"]
+exclude = [".github", "benches", "target", "tests"]
+
+[dependencies]
+xxhash-rust = { version = "0.8", features = ["xxh3"] }
+
+[dev-dependencies]
+criterion = { version = "0.5" }
+
+[[bench]]
+name = "bloom_bench"
+harness = false
+
+[[bench]]
+name = "cms_bench"
+harness = false
