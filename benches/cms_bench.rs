@@ -41,8 +41,9 @@ fn bench_frequency(c: &mut Criterion) {
 
 fn bench_concurrent_increment(c: &mut Criterion) {
     c.bench_function("cms_concurrent_increment", |b| {
-        b.iter(|| {
-            let cms = Arc::new(CountMinSketch::new(WIDTH, DEPTH));
+        let cms = Arc::new(CountMinSketch::new(WIDTH, DEPTH));
+
+        b.iter(|| {    
             let mut handles = Vec::with_capacity(NUM_THREADS);
 
             for t in 0..NUM_THREADS {
@@ -64,13 +65,13 @@ fn bench_concurrent_increment(c: &mut Criterion) {
 
 fn bench_concurrent_frequency(c: &mut Criterion) {
     c.bench_function("cms_concurrent_frequency", |b| {
-        b.iter(|| {
-            let cms = Arc::new(CountMinSketch::new(WIDTH, DEPTH));
+        let cms = Arc::new(CountMinSketch::new(WIDTH, DEPTH));
             for i in 0..OPERATIONS/2 {
                 let key = format!("key-{}", i);
                 cms.increment(&key, 1);
             }
 
+        b.iter(|| {
             let mut handles = Vec::with_capacity(NUM_THREADS);
 
             for t in 0..NUM_THREADS {

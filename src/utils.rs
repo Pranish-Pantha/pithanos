@@ -12,7 +12,7 @@ pub fn multi_hash<T: Hash>(item: &T, output: &mut [usize]) {
     let h2 = h2.finish();
 
     for i in 0..output.len() {
-        output[i] = (h1.wrapping_add(i as u64).wrapping_mul(h2)) as usize;
+        output[i] = (h1.wrapping_add((i as u64).wrapping_mul(h2))) as usize;
     }
 }
 

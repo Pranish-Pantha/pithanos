@@ -41,8 +41,9 @@ fn bench_contains(c: &mut Criterion) {
 
 fn bench_concurrent_insert(c: &mut Criterion) {
     c.bench_function("bloom_concurrent_insert", |b| {
-        b.iter(|| {
-            let filter = Arc::new(BloomFilter::new(FILTER_SIZE, HASH_FN_COUNT));
+        let filter = Arc::new(BloomFilter::new(FILTER_SIZE, HASH_FN_COUNT));
+
+        b.iter(|| {    
             let mut handles = Vec::with_capacity(NUM_THREADS);
 
             for t in 0..NUM_THREADS {
@@ -64,13 +65,13 @@ fn bench_concurrent_insert(c: &mut Criterion) {
 
 fn bench_concurrent_contains(c: &mut Criterion) {
     c.bench_function("bloom_concurrent_contains", |b| {
-        b.iter(|| {
-            let filter = Arc::new(BloomFilter::new(FILTER_SIZE, HASH_FN_COUNT));
+        let filter = Arc::new(BloomFilter::new(FILTER_SIZE, HASH_FN_COUNT));
             for i in 0..OPERATIONS/2 {
                 let key = format!("t{}-key-{}", i%NUM_THREADS, i);
                 filter.insert(&key);
             }
-
+        
+        b.iter(|| {
             let mut handles = Vec::with_capacity(NUM_THREADS);
 
             for t in 0..NUM_THREADS {
